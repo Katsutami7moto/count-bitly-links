@@ -46,7 +46,7 @@ def shorten_link(link: str, group_guid: str) -> str:
     return bitlink
 
 
-def count_clicks(link: str):
+def count_clicks(link: str) -> int:
     headers = {
         'Authorization': BEARER,
     }
@@ -58,57 +58,39 @@ def count_clicks(link: str):
     api_method = 'bitlinks/' + parsed_bitlink + '/clicks/summary'
     response = requests_get(API_URL, api_method, headers, params)
     resp_json: dict = response.json()
-    clicks = resp_json['total_clicks']
+    clicks: int = resp_json['total_clicks']
     return clicks
 
 
-def print_shortened_link():
-    user_info = retrieve_user_info()
-    guid: str = user_info['default_group_guid']
-    long_url = input('Введите ссылку: ')
-    try:
-        bitlink = shorten_link(long_url, guid)
-    except requests.exceptions.HTTPError as err:
-        print('HTTP error:', err)
-        print('It is possible that your link contains a typo.')
-        exit(1)
-    except Exception as e:
-        print('Other error:', e)
-        print("Please, contact script's author.")
-        exit(1)
+def get_shortened_link(long_url: str, guid: str) -> str:
+    bitlink = shorten_link(long_url, guid)
+    return 'Битлинк: {}'.format(bitlink)
+
+
+def get_clicks_count(bitlink: str) -> str:
+    clicks = count_clicks(bitlink)
+    return 'Количество переходов: {}'.format(clicks)
+
+
+def is_bitlink(link: str) -> bool:
+    parsed = urlparse(link)
+    return parsed.netloc == 'bit.ly'
+
+
+def get_message(url: str, guid: str) -> str:
+    if is_bitlink(url):
+        message = get_clicks_count(url)
     else:
-        print('Битлинк:', bitlink)
-
-
-def print_clicks_count():
-    user_info = retrieve_user_info()
-    guid: str = user_info['default_group_guid']
-    long_url = 'https://gist.github.com/dvmn-tasks/58f5fdf7b8eb61ea4ed1b528b74d1ab5#Shorten'
-    try:
-        clicks = count_clicks(shorten_link(long_url, guid))
-    except requests.exceptions.HTTPError as err:
-        print('HTTP error:', err)
-        print('It is possible that your link contains a typo.')
-        exit(1)
-    except Exception as e:
-        print('Other error:', e)
-        print("Please, contact script's author.")
-        exit(1)
-    else:
-        print('Количество переходов:', clicks)
-
-
-def is_bitlink() -> bool:
-    pass
-
-
-def choose_action() -> str:
-    pass
+        message = get_shortened_link(url, guid)
+    return message
 
 
 def main():
+    user_info = retrieve_user_info()
+    guid: str = user_info['default_group_guid']
+    url = input('Введите ссылку: ')
     try:
-        message = choose_action()
+        message = get_message(url, guid)
     except requests.exceptions.HTTPError as err:
         print('HTTP error:', err)
         print('It is possible that your link contains a typo.')
@@ -122,4 +104,4 @@ def main():
 
 
 if __name__ == "__main__":
-    print_clicks_count()
+    main()
