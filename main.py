@@ -1,16 +1,11 @@
-import json
 import os
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
-ACCESS_TOKEN = os.getenv('ACCESS_TOKEN')
-BEARER = 'Bearer {TOKEN}'.format(TOKEN=ACCESS_TOKEN)
+ACCESS_TOKEN: str = os.getenv('ACCESS_TOKEN')
+BEARER = 'Bearer ' + ACCESS_TOKEN
 API_URL = 'https://api-ssl.bitly.com/v4/{}'
-
-
-def json_pretty_print(response: dict):
-    print(json.dumps(response, indent=4, ensure_ascii=False))
 
 
 def requests_get(url: str, get_param: str = '', headers: dict = None) -> requests.Response:
@@ -21,9 +16,6 @@ def requests_get(url: str, get_param: str = '', headers: dict = None) -> request
 
 def requests_post(url: str, get_param: str, headers: dict, payload: dict) -> requests.Response:
     response = requests.post(url=url.format(get_param), headers=headers, json=payload)
-    status = response.status_code
-    print('Status code', status)
-    print('Response text:', response.text)
     response.raise_for_status()
     return response
 
@@ -46,8 +38,7 @@ def shorten_link(link: str, group_guid: str) -> str:
         'domain': 'bit.ly',
         'group_guid': group_guid,
     }
-    long_url_test = requests_get(link)
-    long_url_test.raise_for_status()
+    requests_get(link)  # wrong long url test
     response = requests_post(API_URL, 'shorten', headers, payload)
     resp_json: dict = response.json()
     bitlink: str = resp_json['link']
