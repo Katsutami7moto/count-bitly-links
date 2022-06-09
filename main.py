@@ -3,11 +3,6 @@ import requests
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 
-load_dotenv()
-ACCESS_TOKEN: str = os.getenv('ACCESS_TOKEN')
-BEARER = f'Bearer {ACCESS_TOKEN}'
-API_URL = 'https://api-ssl.bitly.com/v4/{}'
-
 
 def retrieve_user_info() -> dict:
     headers = {
@@ -99,4 +94,8 @@ def main():
 
 
 if __name__ == "__main__":
+    load_dotenv()
+    ACCESS_TOKEN: str = os.getenv('ACCESS_TOKEN')
+    BEARER = f'Bearer {ACCESS_TOKEN}'
+    API_URL = 'https://api-ssl.bitly.com/v4/{}'
     main()
