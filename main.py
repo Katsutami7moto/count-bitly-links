@@ -17,7 +17,6 @@ def retrieve_user_info() -> dict:
 def shorten_link(link: str, group_guid: str) -> str:
     headers = {
         'Authorization': BEARER,
-        'Content-Type': 'application/json',
     }
     payload = {
         'long_url': link,
