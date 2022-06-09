@@ -4,7 +4,7 @@ Console utility for shortening web links using [bit.ly](https://[bit.ly) service
 
 ### How to install
 
-Python3 should be already installed. 
+Python3 (required minimum version is `3.6`) should be already installed. 
 Then use `pip` (or `pip3`, if there is a conflict with Python2) to install dependencies:
 ```
 pip install -r requirements.txt

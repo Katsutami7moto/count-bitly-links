@@ -5,7 +5,7 @@ from urllib.parse import urlparse
 
 load_dotenv()
 ACCESS_TOKEN: str = os.getenv('ACCESS_TOKEN')
-BEARER = 'Bearer ' + ACCESS_TOKEN
+BEARER = f'Bearer {ACCESS_TOKEN}'
 API_URL = 'https://api-ssl.bitly.com/v4/{}'
 
 
@@ -55,7 +55,7 @@ def count_clicks(link: str) -> int:
     }
     parsed = urlparse(link)
     parsed_bitlink = parsed.netloc + parsed.path
-    api_method = 'bitlinks/' + parsed_bitlink + '/clicks/summary'
+    api_method = f'bitlinks/{parsed_bitlink}/clicks/summary'
     response = requests_get(API_URL, api_method, headers, params)
     resp_json: dict = response.json()
     clicks: int = resp_json['total_clicks']
@@ -64,12 +64,12 @@ def count_clicks(link: str) -> int:
 
 def get_shortened_link(long_url: str, guid: str) -> str:
     bitlink = shorten_link(long_url, guid)
-    return 'Bitlink: {}'.format(bitlink)
+    return f'Bitlink: {bitlink}'
 
 
 def get_clicks_count(bitlink: str) -> str:
     clicks = count_clicks(bitlink)
-    return 'Number of clicks: {}'.format(clicks)
+    return f'Number of clicks: {clicks}'
 
 
 def is_bitlink(link: str) -> bool:
