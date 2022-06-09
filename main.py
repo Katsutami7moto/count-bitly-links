@@ -23,8 +23,6 @@ def shorten_link(link: str, group_guid: str) -> str:
         'domain': 'bit.ly',
         'group_guid': group_guid,
     }
-    wrong_long_url_test = requests.get(url=link)
-    wrong_long_url_test.raise_for_status()
     api_method = 'shorten'
     response = requests.post(url=API_URL.format(api_method), headers=headers, json=payload)
     response.raise_for_status()
