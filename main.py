@@ -66,16 +66,6 @@ def is_bitlink(link: str) -> bool:
         raise Exception
 
 
-def get_shortened_link(long_url: str, guid: str) -> str:
-    bitlink = shorten_link(long_url, guid)
-    return f'Bitlink: {bitlink}'
-
-
-def get_clicks_count(bitlink: str) -> str:
-    clicks = count_clicks(bitlink)
-    return f'Number of clicks: {clicks}'
-
-
 def main():
     user_info = retrieve_user_info()
     guid: str = user_info['default_group_guid']
@@ -85,9 +75,9 @@ def main():
             break
         try:
             if is_bitlink(url):
-                message = get_clicks_count(url)
+                message = f'Number of clicks: {count_clicks(url)}'
             else:
-                message = get_shortened_link(url, guid)
+                message = f'Bitlink: {shorten_link(url, guid)}'
         except requests.exceptions.HTTPError as err:
             print('HTTP error:', err)
             print('It is possible that your link contains a typo.')
