@@ -27,17 +27,9 @@ Bitlink: https://bit.ly/3tkfIKW
 Enter a link (or just press "Enter" to quit): https://bit.ly/3tkfIKW
 Number of clicks: 2
 
-Enter a link (or just press "Enter" to quit): https://dvmn.org/encyclopedi
-HTTP error: 404 Client Error: Not Found for url: https://dvmn.org/encyclopedi
-It is possible that your link contains a typo.
-
-Enter a link (or just press "Enter" to quit): https://dvmn.org/encyclopedi a
-HTTP error: 404 Client Error: Not Found for url: https://dvmn.org/encyclopedi%20a
-It is possible that your link contains a typo.
-
 Enter a link (or just press "Enter" to quit): : https://dvmn.org/encyclopedia
-Other error: No connection adapters were found for ': https://dvmn.org/encyclopedia'
-If you don't know how to avoid this error, please, contact script's author.
+HTTP error: 400 Client Error: Bad Request for url: https://api-ssl.bitly.com/v4/shorten
+It is possible that your link contains a typo.
 
 Enter a link (or just press "Enter" to quit): https://bit.ly/3tkfIKWW
 HTTP error: 404 Client Error: Not Found for url: https://api-ssl.bitly.com/v4/bitlinks/bit.ly/3tkfIKWW/clicks/summary?units=-1
