@@ -45,8 +45,7 @@ def count_clicks(link: str) -> int:
     api_method = f'bitlinks/{parsed_bitlink}/clicks/summary'
     response = requests.get(url=API_URL.format(api_method), headers=headers, params=params)
     response.raise_for_status()
-    resp_json: dict = response.json()
-    clicks: int = resp_json['total_clicks']
+    clicks: int = response.json()['total_clicks']
     return clicks
 
 
