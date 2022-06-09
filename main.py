@@ -64,12 +64,12 @@ def count_clicks(link: str) -> int:
 
 def get_shortened_link(long_url: str, guid: str) -> str:
     bitlink = shorten_link(long_url, guid)
-    return 'Битлинк: {}'.format(bitlink)
+    return 'Bitlink: {}'.format(bitlink)
 
 
 def get_clicks_count(bitlink: str) -> str:
     clicks = count_clicks(bitlink)
-    return 'Количество переходов: {}'.format(clicks)
+    return 'Number of clicks: {}'.format(clicks)
 
 
 def is_bitlink(link: str) -> bool:
@@ -88,7 +88,7 @@ def get_message(url: str, guid: str) -> str:
 def main():
     user_info = retrieve_user_info()
     guid: str = user_info['default_group_guid']
-    url = input('Введите ссылку: ')
+    url = input('Enter a link: ')
     try:
         message = get_message(url, guid)
     except requests.exceptions.HTTPError as err:

@@ -20,21 +20,21 @@ pip install -r requirements.txt
 ### Usage exapmples
 
 ```
-Введите ссылку: https://dvmn.org/encyclopedia
-Битлинк: https://bit.ly/3tkfIKW
+Enter a link: https://dvmn.org/encyclopedia
+Bitlink: https://bit.ly/3tkfIKW
 
 Process finished with exit code 0
 ```
 
 ```
-Введите ссылку: https://bit.ly/3tkfIKW
-Количество переходов: 1
+Enter a link: https://bit.ly/3tkfIKW
+Number of clicks: 1
 
 Process finished with exit code 0
 ```
 
 ```
-Введите ссылку: https://dvmn.org/encyclopedi
+Enter a link: https://dvmn.org/encyclopedi
 HTTP error: 404 Client Error: Not Found for url: https://dvmn.org/encyclopedi
 It is possible that your link contains a typo.
 
@@ -42,7 +42,7 @@ Process finished with exit code 1
 ```
 
 ```
-Введите ссылку: https://bit.ly/3tkfIKWW
+Enter a link: https://bit.ly/3tkfIKWW
 HTTP error: 404 Client Error: Not Found for url: https://api-ssl.bitly.com/v4/bitlinks/bit.ly/3tkfIKWW/clicks/summary?units=-1
 It is possible that your link contains a typo.
 
