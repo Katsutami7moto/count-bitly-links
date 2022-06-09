@@ -9,23 +9,12 @@ BEARER = f'Bearer {ACCESS_TOKEN}'
 API_URL = 'https://api-ssl.bitly.com/v4/{}'
 
 
-def requests_get(url: str, get_param: str = '', headers: dict = None, params: dict = None) -> requests.Response:
-    response = requests.get(url=url.format(get_param), headers=headers, params=params)
-    response.raise_for_status()
-    return response
-
-
-def requests_post(url: str, get_param: str, headers: dict, payload: dict) -> requests.Response:
-    response = requests.post(url=url.format(get_param), headers=headers, json=payload)
-    response.raise_for_status()
-    return response
-
-
 def retrieve_user_info() -> dict:
     headers = {
         'Authorization': BEARER,
     }
-    response = requests_get(API_URL, 'user', headers)
+    response = requests.get(url=API_URL.format('user'), headers=headers)
+    response.raise_for_status()
     return response.json()
 
 
@@ -39,8 +28,10 @@ def shorten_link(link: str, group_guid: str) -> str:
         'domain': 'bit.ly',
         'group_guid': group_guid,
     }
-    requests_get(link)  # wrong long url test
-    response = requests_post(API_URL, 'shorten', headers, payload)
+    wrong_long_url_test = requests.get(url=link)
+    wrong_long_url_test.raise_for_status()
+    response = requests.post(url=API_URL.format('shorten'), headers=headers, json=payload)
+    response.raise_for_status()
     resp_json: dict = response.json()
     bitlink: str = resp_json['link']
     return bitlink
@@ -56,7 +47,8 @@ def count_clicks(link: str) -> int:
     parsed = urlparse(link)
     parsed_bitlink = parsed.netloc + parsed.path
     api_method = f'bitlinks/{parsed_bitlink}/clicks/summary'
-    response = requests_get(API_URL, api_method, headers, params)
+    response = requests.get(url=API_URL.format(api_method), headers=headers, params=params)
+    response.raise_for_status()
     resp_json: dict = response.json()
     clicks: int = resp_json['total_clicks']
     return clicks
@@ -99,7 +91,7 @@ def main():
             print('It is possible that your link contains a typo.')
         except Exception as e:
             print('Other error:', e)
-            print("Please, contact script's author.")
+            print("If you don't know how to avoid this error, please, contact script's author.")
         else:
             print(message)
         finally:
