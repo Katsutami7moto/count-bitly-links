@@ -88,19 +88,22 @@ def get_message(url: str, guid: str) -> str:
 def main():
     user_info = retrieve_user_info()
     guid: str = user_info['default_group_guid']
-    url = input('Enter a link: ')
-    try:
-        message = get_message(url, guid)
-    except requests.exceptions.HTTPError as err:
-        print('HTTP error:', err)
-        print('It is possible that your link contains a typo.')
-        exit(1)
-    except Exception as e:
-        print('Other error:', e)
-        print("Please, contact script's author.")
-        exit(1)
-    else:
-        print(message)
+    while True:
+        url = input('Enter a link (or just press "Enter" to quit): ')
+        if not url:
+            break
+        try:
+            message = get_message(url, guid)
+        except requests.exceptions.HTTPError as err:
+            print('HTTP error:', err)
+            print('It is possible that your link contains a typo.')
+        except Exception as e:
+            print('Other error:', e)
+            print("Please, contact script's author.")
+        else:
+            print(message)
+        finally:
+            print()
 
 
 if __name__ == "__main__":
