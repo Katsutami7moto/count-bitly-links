@@ -64,14 +64,6 @@ def is_bitlink(link: str) -> bool:
     return parsed.netloc == 'bit.ly'
 
 
-def get_message(url: str, guid: str) -> str:
-    if is_bitlink(url):
-        message = get_clicks_count(url)
-    else:
-        message = get_shortened_link(url, guid)
-    return message
-
-
 def main():
     user_info = retrieve_user_info()
     guid: str = user_info['default_group_guid']
@@ -80,7 +72,10 @@ def main():
         if not url:
             break
         try:
-            message = get_message(url, guid)
+            if is_bitlink(url):
+                message = get_clicks_count(url)
+            else:
+                message = get_shortened_link(url, guid)
         except requests.exceptions.HTTPError as err:
             print('HTTP error:', err)
             print('It is possible that your link contains a typo.')
