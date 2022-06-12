@@ -12,7 +12,7 @@ pip install -r requirements.txt
 Before you start using the utility, you will need an access token. Here is how to set it up:
 
 1. If you haven't, download the [ZIP archive](https://github.com/Katsutami7moto/count_bitly_links/archive/refs/heads/main.zip) of the script and unzip it.
-2. Go to the directory where `main.py` file is and create a file with the name `.env` (yes, it has only the extension).
+2. Go to the directory where `main.py` file is and create a file with the name `.env` (yes, it has only the extension). It is the file to contain environmental variables that usually store data unique to each user, thus you will need to create your own.
 3. Copy this string: `ACCESS_TOKEN='{token}'` and paste it to `.env` file.
 4. Sign up for [bit.ly](https://bit.ly) service (or log in to it, if you already had).
 5. Go to ["API" section of "Settings" page](https://app.bitly.com/settings/api/).
