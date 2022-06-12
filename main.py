@@ -3,10 +3,12 @@ import requests
 from dotenv import load_dotenv
 from urllib.parse import urlparse
 
+API_URL = 'https://api-ssl.bitly.com/v4/{}'
 
-def retrieve_user_info() -> dict:
+
+def retrieve_user_info(bearer: str) -> dict:
     headers = {
-        'Authorization': BEARER,
+        'Authorization': bearer,
     }
     api_method = 'user'
     response = requests.get(url=API_URL.format(api_method), headers=headers)
@@ -14,9 +16,9 @@ def retrieve_user_info() -> dict:
     return response.json()
 
 
-def shorten_link(link: str, group_guid: str) -> str:
+def shorten_link(link: str, group_guid: str, bearer: str) -> str:
     headers = {
-        'Authorization': BEARER,
+        'Authorization': bearer,
     }
     payload = {
         'long_url': link,
@@ -30,9 +32,9 @@ def shorten_link(link: str, group_guid: str) -> str:
     return bitlink
 
 
-def count_clicks(link: str) -> int:
+def count_clicks(link: str, bearer: str) -> int:
     headers = {
-        'Authorization': BEARER,
+        'Authorization': bearer,
     }
     params = {
         'units': '-1'
@@ -46,9 +48,9 @@ def count_clicks(link: str) -> int:
     return clicks
 
 
-def is_bitlink(link: str) -> bool:
+def is_bitlink(link: str, bearer: str) -> bool:
     headers = {
-        'Authorization': BEARER,
+        'Authorization': bearer,
     }
     parsed = urlparse(link)
     parsed_bitlink = parsed.netloc + parsed.path
@@ -63,17 +65,19 @@ def is_bitlink(link: str) -> bool:
 
 
 def main():
-    user_info = retrieve_user_info()
+    access_token: str = os.getenv('ACCESS_TOKEN')
+    bearer = f'Bearer {access_token}'
+    user_info = retrieve_user_info(bearer)
     guid: str = user_info['default_group_guid']
     while True:
         url = input('Enter a link (or just press "Enter" to quit): ')
         if not url:
             break
         try:
-            if is_bitlink(url):
-                message = f'Number of clicks: {count_clicks(url)}'
+            if is_bitlink(url, bearer):
+                message = f'Number of clicks: {count_clicks(url, bearer)}'
             else:
-                message = f'Bitlink: {shorten_link(url, guid)}'
+                message = f'Bitlink: {shorten_link(url, guid, bearer)}'
         except requests.exceptions.HTTPError as err:
             print('HTTP error:', err)
             print('It is possible that your link contains a typo.')
@@ -88,7 +92,4 @@ def main():
 
 if __name__ == "__main__":
     load_dotenv()
-    ACCESS_TOKEN: str = os.getenv('ACCESS_TOKEN')
-    BEARER = f'Bearer {ACCESS_TOKEN}'
-    API_URL = 'https://api-ssl.bitly.com/v4/{}'
     main()
