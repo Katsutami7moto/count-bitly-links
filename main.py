@@ -26,8 +26,7 @@ def shorten_link(link: str, group_guid: str) -> str:
     api_method = 'shorten'
     response = requests.post(url=API_URL.format(api_method), headers=headers, json=payload)
     response.raise_for_status()
-    resp_json: dict = response.json()
-    bitlink: str = resp_json['link']
+    bitlink: str = response.json()['link']
     return bitlink
 
 
