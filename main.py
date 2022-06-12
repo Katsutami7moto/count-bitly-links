@@ -61,7 +61,7 @@ def is_bitlink(link: str, bearer: str) -> bool:
     elif response.status_code == 404:
         return False
     else:
-        raise Exception
+        response.raise_for_status()
 
 
 def main():
