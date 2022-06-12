@@ -1,6 +1,6 @@
-# Bitly url shorterer
+# Bitly URL shortener
 
-Console utility for shortening web links using [bit.ly](https://[bit.ly) service and counting clicks on shortened links.
+Console utility for shortening web links using [bit.ly](https://bit.ly) service and counting clicks on shortened links.
 
 ### How to install
 
@@ -15,10 +15,10 @@ pip install -r requirements.txt
 1. Launch `main.py` script.
 2. Enter a long URL to create a bitlink (short URL made with Bitly service).
 3. Or enter a bitlink URL to get a number of clicks done on it.
-4. If either of those URLs were wrong or contained a typo, script will exit with an error message. Inspect the URL you had entered and try again.
-5. You can enter as many URLs as you need. To exit the script just press `Enter` without typing anything.
+4. If either of those URLs were wrong or contained a typo, the script will exit with an error message. Inspect the URL you had entered and try again.
+5. You can enter as many URLs as you need. To exit the script, just press `Enter` without typing anything.
 
-### Usage exapmple
+### Usage example
 
 ```
 Enter a link (or just press "Enter" to quit): https://dvmn.org/encyclopedia
@@ -42,4 +42,4 @@ Process finished with exit code 0
 
 ### Project Goals
 
-The code is written for educational purposes on online-course for web-developers [dvmn.org](https://dvmn.org/).
+The code is written for educational purposes on the online-course for web-developers, [dvmn.org](https://dvmn.org/).
