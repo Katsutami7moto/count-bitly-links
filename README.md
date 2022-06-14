@@ -22,24 +22,43 @@ Before you start using the utility, you will need an access token. Here is how t
 
 ### How to use
 
-1. Launch `main.py` script.
-2. Enter a long URL to create a bitlink (short URL made with Bitly service).
-3. Or enter a bitlink URL to get a number of clicks done on it.
-4. If either of those URLs were wrong or contained a typo, the script will show an error message. Inspect the URL you had entered and try again.
-5. You can enter as many URLs as you need. To exit the script, just press `Enter` without typing anything.
+1. You can run this script in two modes:
+   - Without arguments to use `loop mode` if you need to process more than one link.
+     - ```commandline
+       python3 main.py
+       ```
+   - Or with URL as optional positional argument, like this:
+     - ```commandline
+       python3 main.py -u URL
+       ```
+3. Enter a long URL to create a bitlink (short URL made with [bit.ly](https://bit.ly) service).
+4. Or enter a bitlink URL to get a number of clicks done on it.
+5. If either of those URLs were wrong or contained a typo, the script will show an error message. Inspect the URL you had entered and try again.
+6. In `loop mode` you can enter as many URLs as you need. To exit the script, just press `Enter` without typing anything.
 
 ### Usage example
 
+With command line argument:
+```commandline
+python3 main.py -u https://dvmn.org/encyclopedia
+Bitlink: https://bit.ly/3tkfIKW
+
+python3 main.py --url https://bit.ly/3tkfIKW
+Number of clicks: 2
+
+python3 main.py -u https://bit.ly/3tkfIKWW
+HTTP error: 400 Client Error: Bad Request for url: https://api-ssl.bitly.com/v4/shorten
+It is possible that your link contains a typo.
+
+```
+
+In loop mode:
 ```
 Enter a link (or just press "Enter" to quit): https://dvmn.org/encyclopedia
 Bitlink: https://bit.ly/3tkfIKW
 
 Enter a link (or just press "Enter" to quit): https://bit.ly/3tkfIKW
 Number of clicks: 2
-
-Enter a link (or just press "Enter" to quit): : https://dvmn.org/encyclopedia
-HTTP error: 400 Client Error: Bad Request for url: https://api-ssl.bitly.com/v4/shorten
-It is possible that your link contains a typo.
 
 Enter a link (or just press "Enter" to quit): https://bit.ly/3tkfIKWW
 HTTP error: 400 Client Error: Bad Request for url: https://api-ssl.bitly.com/v4/shorten

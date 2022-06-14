@@ -1,7 +1,9 @@
+import argparse
 import os
+from urllib.parse import urlparse
+
 import requests
 from dotenv import load_dotenv
-from urllib.parse import urlparse
 
 API_URL = 'https://api-ssl.bitly.com/v4/{}'
 
@@ -64,13 +66,15 @@ def is_bitlink(link: str, bearer: str) -> bool:
         response.raise_for_status()
 
 
-def main():
+def main(args_url: str):
     access_token: str = os.getenv('ACCESS_TOKEN')
     bearer = f'Bearer {access_token}'
-    user_info = retrieve_user_info(bearer)
-    guid: str = user_info['default_group_guid']
+    guid: str = retrieve_user_info(bearer)['default_group_guid']
     while True:
-        url = input('Enter a link (or just press "Enter" to quit): ')
+        if args_url:
+            url = args_url
+        else:
+            url = input('Enter a link (or just press "Enter" to quit): ')
         if not url:
             break
         try:
@@ -81,15 +85,43 @@ def main():
         except requests.exceptions.HTTPError as err:
             print('HTTP error:', err)
             print('It is possible that your link contains a typo.')
-        except Exception as e:
-            print('Other error:', e)
+        except Exception as err:
+            print('Other error:', err)
             print("If you don't know how to avoid this error, please, contact script's author.")
         else:
             print(message)
         finally:
             print()
+            if args_url:
+                break
 
 
 if __name__ == "__main__":
     load_dotenv()
-    main()
+    description = """
+    Bitly URL shortener
+    
+    Console utility for shortening web links using bit.ly service and counting clicks on shortened links.
+    
+    How to use
+
+    - Run this script with an URL as optional positional argument, like this:
+    
+    python main.py [http | https]://[www.]somesite.com/some-path
+
+    - Or run it without an argument to use loop mode if you need to process more than one link.
+    
+    - Enter a long URL to create a bitlink (short URL made with bit.ly service).
+    - Or enter a bitlink URL to get a number of clicks done on it.
+    - If either of those URLs were wrong or contained a typo, the script will show an error message.
+    Inspect the URL you had entered and try again.
+    
+    - In loop mode, you can enter as many URLs as you need.
+    To exit the script, just press Enter without typing anything.
+    """
+    parser = argparse.ArgumentParser(
+        description=description
+    )
+    parser.add_argument('-u', '--url', help='URL that you want to process')
+    args = parser.parse_args()
+    main(args.url)
