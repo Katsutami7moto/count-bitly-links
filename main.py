@@ -66,13 +66,42 @@ def is_bitlink(link: str, bearer: str) -> bool:
         response.raise_for_status()
 
 
-def main(args_url: str):
+def main():
+    description = """
+        Bitly URL shortener
+
+        Console utility for shortening web links using bit.ly service and counting clicks on shortened links.
+
+        How to use
+
+        - Run this script with an URL as optional positional argument, like this:
+
+        python main.py [http | https]://[www.]somesite.com/some-path
+
+        - Or run it without an argument to use loop mode if you need to process more than one link.
+
+        - Enter a long URL to create a bitlink (short URL made with bit.ly service).
+        - Or enter a bitlink URL to get a number of clicks done on it.
+        - If either of those URLs were wrong or contained a typo, the script will show an error message.
+        Inspect the URL you had entered and try again.
+
+        - In loop mode, you can enter as many URLs as you need.
+        To exit the script, just press Enter without typing anything.
+        """
+    parser = argparse.ArgumentParser(
+        description=description
+    )
+    parser.add_argument('-u', '--url', help='URL that you want to process')
+    args = parser.parse_args()
+
+    load_dotenv()
     access_token: str = os.getenv('ACCESS_TOKEN')
     bearer = f'Bearer {access_token}'
     guid: str = retrieve_user_info(bearer)['default_group_guid']
+
     while True:
-        if args_url:
-            url = args_url
+        if args.url:
+            url = args.url
         else:
             url = input('Enter a link (or just press "Enter" to quit): ')
         if not url:
@@ -92,36 +121,9 @@ def main(args_url: str):
             print(message)
         finally:
             print()
-            if args_url:
+            if args.url:
                 break
 
 
 if __name__ == "__main__":
-    load_dotenv()
-    description = """
-    Bitly URL shortener
-    
-    Console utility for shortening web links using bit.ly service and counting clicks on shortened links.
-    
-    How to use
-
-    - Run this script with an URL as optional positional argument, like this:
-    
-    python main.py [http | https]://[www.]somesite.com/some-path
-
-    - Or run it without an argument to use loop mode if you need to process more than one link.
-    
-    - Enter a long URL to create a bitlink (short URL made with bit.ly service).
-    - Or enter a bitlink URL to get a number of clicks done on it.
-    - If either of those URLs were wrong or contained a typo, the script will show an error message.
-    Inspect the URL you had entered and try again.
-    
-    - In loop mode, you can enter as many URLs as you need.
-    To exit the script, just press Enter without typing anything.
-    """
-    parser = argparse.ArgumentParser(
-        description=description
-    )
-    parser.add_argument('-u', '--url', help='URL that you want to process')
-    args = parser.parse_args()
-    main(args.url)
+    main()
