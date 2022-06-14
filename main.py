@@ -42,7 +42,7 @@ def count_clicks(link: str, bearer: str) -> int:
         'units': '-1'
     }
     parsed = urlparse(link)
-    parsed_bitlink = parsed.netloc + parsed.path
+    parsed_bitlink = f'{parsed.netloc}{parsed.path}'
     api_method = f'bitlinks/{parsed_bitlink}/clicks/summary'
     response = requests.get(url=API_URL.format(api_method), headers=headers, params=params)
     response.raise_for_status()
@@ -55,7 +55,7 @@ def is_bitlink(link: str, bearer: str) -> bool:
         'Authorization': bearer,
     }
     parsed = urlparse(link)
-    parsed_bitlink = parsed.netloc + parsed.path
+    parsed_bitlink = f'{parsed.netloc}{parsed.path}'
     api_method = f'bitlinks/{parsed_bitlink}'
     response = requests.get(url=API_URL.format(api_method), headers=headers)
     if response.ok:
