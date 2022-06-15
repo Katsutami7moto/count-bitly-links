@@ -56,11 +56,7 @@ def is_bitlink(link: str, bearer: str, api_url: str) -> bool:
     parsed_bitlink = f'{parsed.netloc}{parsed.path}'
     api_method = f'bitlinks/{parsed_bitlink}'
     response = requests.get(url=api_url.format(api_method), headers=headers)
-    if response.status_code == 404:
-        return False
-    else:
-        response.raise_for_status()
-        return True
+    return response.ok
 
 
 def main():
