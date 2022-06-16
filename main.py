@@ -61,25 +61,9 @@ def is_bitlink(link: str, bearer: str, api_url: str) -> bool:
 
 def main():
     description = """
-        Bitly URL shortener
+        Bitly URL shortener. 
 
         Console utility for shortening web links using bit.ly service and counting clicks on shortened links.
-
-        How to use
-
-        - Run this script with an URL as optional positional argument, like this:
-
-        python main.py [http | https]://[www.]somesite.com/some-path
-
-        - Or run it without an argument to use loop mode if you need to process more than one link.
-
-        - Enter a long URL to create a bitlink (short URL made with bit.ly service).
-        - Or enter a bitlink URL to get a number of clicks done on it.
-        - If either of those URLs were wrong or contained a typo, the script will show an error message.
-        Inspect the URL you had entered and try again.
-
-        - In loop mode, you can enter as many URLs as you need.
-        To exit the script, just press Enter without typing anything.
         """
     parser = argparse.ArgumentParser(
         description=description
@@ -101,6 +85,8 @@ def main():
         if not url:
             break
         try:
+            wrong_url_test = requests.get(url)
+            wrong_url_test.raise_for_status()
             if is_bitlink(url, bearer, api_url):
                 message = f'Number of clicks: {count_clicks(url, bearer, api_url)}'
             else:
