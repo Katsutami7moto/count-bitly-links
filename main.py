@@ -83,12 +83,13 @@ def main():
 
     while True:
         if args.url:
-            user_url = args.url
+            user_url: str = args.url
         else:
             user_url = input('Enter a link (or just press "Enter" to quit): ')
         if not user_url:
             break
         try:
+            user_url = user_url.strip()
             wrong_url_test = requests.get(user_url)
             wrong_url_test.raise_for_status()
             api_args = user_url, bearer, api_base
