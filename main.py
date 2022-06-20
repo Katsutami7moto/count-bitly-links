@@ -85,13 +85,12 @@ def main():
         if args.url:
             user_url: str = args.url
         else:
-            user_url = input('Enter a link (or just press "Enter" to quit): ')
+            user_url = input('Enter a link (or press "Enter" to quit): ')
         if not user_url:
             break
+        user_url = user_url.strip()
         try:
-            user_url = user_url.strip()
-            wrong_url_test = requests.get(user_url)
-            wrong_url_test.raise_for_status()
+            requests.get(user_url).raise_for_status()
             api_args = user_url, bearer, api_base
             if is_bitlink(*api_args):
                 message = f'Number of clicks: {count_clicks(*api_args)}'
