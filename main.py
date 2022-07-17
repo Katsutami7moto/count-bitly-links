@@ -1,9 +1,9 @@
-import argparse
-import os
+from argparse import ArgumentParser, Namespace
+from textwrap import dedent
 from urllib.parse import urlparse
 
 import requests
-from dotenv import load_dotenv
+from environs import Env
 
 
 def retrieve_user_info(bearer: str, api_base: str) -> dict:
@@ -64,23 +64,7 @@ def is_bitlink(link: str, bearer: str, api_base: str) -> bool:
     return response.ok
 
 
-def main():
-    description = """
-        Bitly URL shortener. 
-        Console utility for shortening web links using bit.ly service
-        and counting clicks on shortened links.
-        """
-    parser = argparse.ArgumentParser(
-        description=description
-    )
-    parser.add_argument('-u', '--url', help='URL that you want to process')
-    args = parser.parse_args()
-
-    load_dotenv()
-    access_token: str = os.getenv('ACCESS_TOKEN')
-    bearer = f'Bearer {access_token}'
-    api_base = 'https://api-ssl.bitly.com/v4/{}'
-
+def process_input(args: Namespace, bearer: str, api_base: str):
     while True:
         if args.url:
             user_url: str = args.url
@@ -109,6 +93,27 @@ def main():
             print()
             if args.url:
                 break
+
+
+def main():
+    description = """\
+    Bitly URL shortener. 
+    Console utility for shortening web links using bit.ly service
+    and counting clicks on shortened links.
+    """
+    parser = ArgumentParser(
+        description=dedent(description)
+    )
+    parser.add_argument('-u', '--url', help='URL that you want to process')
+    args = parser.parse_args()
+
+    env = Env()
+    env.read_env()
+    access_token: str = env('ACCESS_TOKEN')
+    bearer = f'Bearer {access_token}'
+    api_base = 'https://api-ssl.bitly.com/v4/{}'
+
+    process_input(args, bearer, api_base)
 
 
 if __name__ == "__main__":
