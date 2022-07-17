@@ -97,7 +97,7 @@ def process_input(args: Namespace, bearer: str, api_base: str):
 
 def main():
     description = """\
-    Bitly URL shortener. 
+    Bitly URL shortener.
     Console utility for shortening web links using bit.ly service
     and counting clicks on shortened links.
     """
